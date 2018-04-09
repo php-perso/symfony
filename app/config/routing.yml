@@ -1,0 +1,3 @@
+nrx_platform:
+    resource: "@NRXPlatformBundle/Resources/config/routing.yml"
+    prefix:   /platform

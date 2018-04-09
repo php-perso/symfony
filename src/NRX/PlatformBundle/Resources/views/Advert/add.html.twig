@@ -1,0 +1,23 @@
+{# src/OC/PlatformBundle/Resources/views/Advert/add.html.twig #}
+
+{% extends "NRXPlatformBundle::layout.html.twig" %}
+
+{% block body %}
+
+  <h2>Ajouter une annonce</h2>
+
+  {{ include("NRXPlatformBundle:Advert:form.html.twig") }}
+
+  <p>
+    Attention : cette annonce sera ajoutée directement
+    sur la page d'accueil après validation du formulaire.
+  </p>
+
+  <p>
+    <a href="{{ path('oc_platform_home') }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Retour à la liste
+    </a>
+  </p>
+
+{% endblock %}
