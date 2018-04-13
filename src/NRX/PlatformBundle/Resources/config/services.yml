@@ -1,4 +1,6 @@
 services:
+    oc_platform.antispam:
+        class: NRX\PlatformBundle\Antispam\NRXAntispam
 #    nrx_platform.example:
 #        class: NRX\PlatformBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]

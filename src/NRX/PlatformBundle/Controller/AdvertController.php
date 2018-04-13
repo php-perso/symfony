@@ -57,7 +57,7 @@ class AdvertController extends Controller
       'author'  => 'Alexandre',
       'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
       'date'    => new \Datetime()
-    );
+		);
 
     return $this->render('NRXPlatformBundle:Advert:view.html.twig', array(
       'advert' => $advert
@@ -69,18 +69,31 @@ class AdvertController extends Controller
 		// La gestion d'un formulaire est particulière, mais l'idée est la suivante :
 	
 		// Si la requête est en POST, c'est que le visiteur a soumis le formulaire
-		if ($request->isMethod('POST')) {
+		/*if ($request->isMethod('POST')) {
 		  // Ici, on s'occupera de la création et de la gestion du formulaire
 	
 		  $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 	
 		  // Puis on redirige vers la page de visualisation de cettte annonce
 		  return $this->redirectToRoute('oc_platform_view', array('id' => 5));
+		  
+		 
+			// Si on n'est pas en POST, alors on affiche le formulaire
+			return $this->render('NRXPlatformBundle:Advert:add.html.twig');
+			} 
+			*/
+		  // On récupère le service
+		  $antispam = $this->container->get('oc_platform.antispam');
+
+		  // Je pars du principe que $text contient le texte d'un message quelconque
+		  $text = '...';
+		  if ($antispam->isSpam($text)) {
+			throw new \Exception('Votre message a été détecté comme spam !');
+		  }
+		  
+		  // Ici le message n'est pas un spam
 		}
 	
-		// Si on n'est pas en POST, alors on affiche le formulaire
-		return $this->render('NRXPlatformBundle:Advert:add.html.twig');
-	  }
 	
 	  public function editAction($id, Request $request)
 	  {
