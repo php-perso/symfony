@@ -1,0 +1,9 @@
+nrx_core_home:
+    path:     /
+    defaults:
+        _controller: NRXCoreBundle:Main:index
+
+nrx_core_contact:
+    path:   /contact/
+    defaults:
+        _controller: NRXCoreBundle:Main:contact

@@ -1,9 +1,37 @@
 {# src/OC/PlatformBundle/Resources/views/layout.html.twig #}
 
-{% extends "::layout.html.twig" %}
+{% extends "NRXCoreBundle::layout.html.twig" %}
 
 {% block title %}
-  Annonces - {{ parent() }}
+  Annonces
+{% endblock %}
+
+{% block jumbotron_header %}
+    <h1>Ma plateforme d'annonces</h1>
+    <p>
+        Ce projet est propulsé par Symfony, et construit grâce au MOOC OpenClassrooms et SensioLabs.
+    </p>
+    <p>
+        <a class="btn btn-primary btn-lg" href="https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2">
+            Participer au MOOC »
+        </a>
+    </p>
+{% endblock %}
+
+{% block entete_body %}
+  <h3>Les annonces</h3>
+  <ul class="nav nav-pills nav-stacked">
+      <li>
+          <a href="{{ path('nrx_core_home') }}">Accueil</a>
+      </li>
+      <li>
+          <a href="{{ path('oc_platform_home') }}">Accueil Annonces</a>
+      </li>
+      <li>
+          <a href="{{ path('oc_platform_add') }}">Ajouter une annonce</a>
+      </li>
+  </ul>
+  {{ parent() }}
 {% endblock %}
 
 {% block body %}
