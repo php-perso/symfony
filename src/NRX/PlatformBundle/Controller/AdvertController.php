@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use NRX\PlatformBundle\Entity\Advert;
 
 
 // On hérite AdvertController (notre controleur) à Controller (controleur de Symfony)
@@ -18,7 +19,6 @@ class AdvertController extends Controller
 {	  
 	  public function indexAction($page)
 	  {
-			
 			// Notre liste d'annonce en dur
 			$listAdverts = array(
 				array(
@@ -51,7 +51,7 @@ class AdvertController extends Controller
 	  {
 		// Ici, on récupérera l'annonce correspondante à l'id $id
 	
-		$advert = array(
+		/*$advert = array(
       'title'   => 'Recherche développpeur Symfony2',
       'id'      => $id,
       'author'  => 'Alexandre',
@@ -59,6 +59,12 @@ class AdvertController extends Controller
       'date'    => new \Datetime()
 		);
 
+    return $this->render('NRXPlatformBundle:Advert:view.html.twig', array(
+      'advert' => $advert
+	));*/
+	$advert = new Advert;
+    $advert->setContent("Recherche développeur Symfony3.");
+	
     return $this->render('NRXPlatformBundle:Advert:view.html.twig', array(
       'advert' => $advert
     ));
