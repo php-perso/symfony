@@ -49,25 +49,28 @@ class AdvertController extends Controller
 	
 	  public function viewAction($id)
 	  {
-		// Ici, on récupérera l'annonce correspondante à l'id $id
-	
-		/*$advert = array(
-      'title'   => 'Recherche développpeur Symfony2',
-      'id'      => $id,
-      'author'  => 'Alexandre',
-      'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
-      'date'    => new \Datetime()
-		);
 
-    return $this->render('NRXPlatformBundle:Advert:view.html.twig', array(
-      'advert' => $advert
-	));*/
-	$advert = new Advert;
-    $advert->setContent("Recherche développeur Symfony3.");
-	
+    // On récupère le repository
+    $repository = $this->getDoctrine()
+      ->getManager()
+      ->getRepository('NRXPlatformBundle:Advert')
+    ;
+
+    // On récupère l'entité correspondante à l'id $id
+    $advert = $repository->find($id);
+
+    // $advert est donc une instance de OC\PlatformBundle\Entity\Advert
+    // ou null si l'id $id  n'existe pas, d'où ce if :
+    if (null === $advert) {
+      throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+    }
+
+    // Le render ne change pas, on passait avant un tableau, maintenant un objet
     return $this->render('NRXPlatformBundle:Advert:view.html.twig', array(
       'advert' => $advert
     ));
+  
+
 	  }
 	
 	  public function addAction(Request $request)
@@ -89,15 +92,82 @@ class AdvertController extends Controller
 			} 
 			*/
 		  // On récupère le service
-		  $antispam = $this->container->get('oc_platform.antispam');
+		/*  $antispam = $this->container->get('oc_platform.antispam');
 
 		  // Je pars du principe que $text contient le texte d'un message quelconque
 		  $text = '...';
 		  if ($antispam->isSpam($text)) {
 			throw new \Exception('Votre message a été détecté comme spam !');
-		  }
+		  }*/
 		  
 		  // Ici le message n'est pas un spam
+
+		  
+			// Création de l'entité
+			/*$advert = new Advert();
+			$advert->setTitle('Recherche développeur Symfony.');
+			$advert->setAuthor('Alexandre');
+			$advert->setContent("Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…");
+			// On peut ne pas définir ni la date ni la publication,
+			// car ces attributs sont définis automatiquement dans le constructeur
+		
+			// On récupère l'EntityManager
+			$em = $this->getDoctrine()->getManager();
+		
+			// Étape 1 : On « persiste » l'entité
+			$em->persist($advert);
+		
+			// Étape 2 : On « flush » tout ce qui a été persisté avant
+			$em->flush();
+		
+			// Reste de la méthode qu'on avait déjà écrit
+			if ($request->isMethod('POST')) {
+			  $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+		
+			  // Puis on redirige vers la page de visualisation de cettte annonce
+			  return $this->redirectToRoute('oc_platform_view', array('id' => $advert->getId()));
+			}
+		
+			// Si on n'est pas en POST, alors on affiche le formulaire
+			return $this->render('NRXPlatformBundle:Advert:add.html.twig', array('advert' => $advert));*/
+			$em = $this->getDoctrine()->getManager();
+
+			// On crée une nouvelle annonce
+			/*$advert1 = new Advert;
+			$advert1->setTitle('Recherche développeur.');
+			$advert1->setContent("Pour mission courte");
+			$advert1->setAuthor("moi");
+			// Et on le persiste
+			$em->persist($advert1);*/
+
+			// On récupère l'annonce d'id 5. On n'a pas encore vu cette méthode find(),
+			// mais elle est simple à comprendre. Pas de panique, on la voit en détail
+			// dans un prochain chapitre dédié aux repositories
+			$advert2 = $em->getRepository('NRXPlatformBundle:Advert')->find(5);
+
+			// On modifie cette annonce, en changeant la date à la date d'aujourd'hui
+			$advert2->setDate(new \Datetime());
+
+			// Ici, pas besoin de faire un persist() sur $advert2. En effet, comme on a
+			// récupéré cette annonce via Doctrine, il sait déjà qu'il doit gérer cette
+			// entité. Rappelez-vous, un persist ne sert qu'à donner la responsabilité
+			// de l'objet à Doctrine.
+
+			// Enfin, on applique les deux changements à la base de données :
+			// Un INSERT INTO pour ajouter $advert1
+			// Et un UPDATE pour mettre à jour la date de $advert2
+			$em->flush();
+			
+			// Reste de la méthode qu'on avait déjà écrit
+			if ($request->isMethod('POST')) {
+				$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+		  
+				// Puis on redirige vers la page de visualisation de cettte annonce
+				return $this->redirectToRoute('oc_platform_view', array('id' => $advert->getId()));
+			  }
+		  
+			  // Si on n'est pas en POST, alors on affiche le formulaire
+			  return $this->render('NRXPlatformBundle:Advert:add.html.twig');
 		}
 	
 	

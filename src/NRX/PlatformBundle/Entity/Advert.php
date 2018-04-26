@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Advert
  *
- * @ORM\Table(name="advert")
+ * @ORM\Table(name="nrx_advert")
  * @ORM\Entity(repositoryClass="NRX\PlatformBundle\Repository\AdvertRepository")
  */
 class Advert
@@ -48,6 +48,11 @@ class Advert
      * @ORM\Column(name="content", type="text")
      */
     private $content;
+
+    /**
+   * @ORM\Column(name="published", type="boolean")
+   */
+  private $published = true;
 
     public function __construct()
     {
@@ -160,5 +165,28 @@ class Advert
     {
         return $this->content;
     }
-}
 
+    /**
+     * Set published
+     *
+     * @param boolean $published
+     *
+     * @return Advert
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * Get published
+     *
+     * @return boolean
+     */
+    public function getPublished()
+    {
+        return $this->published;
+    }
+}
